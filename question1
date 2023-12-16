@@ -1,0 +1,35 @@
+# question1
+def detect_word(word):
+    word = word.strip('/')
+    word = word.strip('.')
+    word = word.strip(',')
+    word = word.strip('"')
+    word = word.strip('?')
+    word = word.strip('!')
+    word = word.strip('()')
+    word = word.lower()
+    return word
+
+
+def Word_Freq_Dictionary(input_file, output_file):
+    with open(input_file, 'r') as instream:
+        dictionary = {}
+        for line in instream:
+            words = line.split()
+            for word in words:
+                detected_word = detect_word(word)
+                if dictionary.get(detected_word):
+                    dictionary[detected_word] += 1
+                else:
+                    dictionary.update({detected_word: 1})
+    with open(output_file, 'w') as outstream:
+        outstring = ""
+        for word, count in sorted(dictionary.items()):
+            outstring = outstring + word + '\t' + str(count) + '\n'
+        outstream.write(outstring)
+
+
+input_file = "paragraph_from_wikipedia.txt"
+output_file = "output.tsv"
+
+Word_Freq_Dictionary(input_file, output_file)
