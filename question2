@@ -1,0 +1,39 @@
+import string
+
+
+def swap_holiday(string):
+    holiday = {
+        "easter": ["04/04/2021"],
+        "chanukah": ["11/28/2021"],
+        "christmas": ["12/25/2021"],
+        "halloween": ["10/31/2021"],
+        "thanksgiving": ["11/25/2021"],
+        "kwanzaa": ["12/26/2021"],
+        "hanukkah": ["11/28/2021"],
+        "passover": ["03/27/2021"],
+        "new": [["year's", 'day', "1/1/2021"], ["year's", 'eve', "12/31/2021"]]
+    }
+    words = string.split()
+    for i in range(len(words)):
+        word = words[i].lower().strip()
+        if word in holiday.keys():
+            date_options = holiday[word]
+            if len(date_options) == 1:
+                words[i] = str(date_options[0])
+            elif len(date_options) > 1:
+                for row in range(len(date_options)):
+                    same = 0
+                    for col in range(len(date_options[row]) - 1):
+                        if len(words) > (i + col + 1):
+                            if words[i + col + 1] == date_options[row][col]:
+                                same += 1
+                    if same == (len(date_options[row]) - 1):
+                        words[i] = str(date_options[row][-1])
+                        for temp in range(same):
+                            words[i+temp+1] = ""
+    return " ".join(words)
+
+
+input = "I wish you a happy new year's day"
+ans = swap_holiday(input)
+print(ans)
